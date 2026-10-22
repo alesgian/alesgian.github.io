@@ -3,9 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alessandro Giannini</title>
-<meta name="description" content="Alessandro Giannini, laureato in Ingegneria informatica e automatica alla Sapienza. Controlli, automazione, simulazione.">
+<title>Alessandro Giannini · Controlli e automazione</title>
+<meta name="description" content="Alessandro Giannini, laureato in Ingegneria informatica e automatica alla Sapienza. Controlli, automazione, computer vision.">
+<meta name="author" content="Alessandro Giannini">
 <meta name="theme-color" content="#f4f3ef">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Alessandro Giannini · Controlli e automazione">
+<meta property="og:description" content="Alessandro Giannini, laureato in Ingegneria informatica e automatica alla Sapienza. Controlli, automazione, computer vision.">
+<meta property="og:url" content="https://alesgian.github.io/">
+<meta property="og:image" content="https://alesgian.github.io/laser.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap">
@@ -36,7 +43,7 @@ h1,h2,h3{font-weight:500;letter-spacing:-.02em;line-height:1.1}
 h2{font-size:clamp(32px,4.4vw,56px);margin-bottom:28px}
 h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
 .sec{padding:120px 0;border-top:1px solid var(--line)}
-.cap{font:400 12px/1.5 var(--mono);color:var(--muted);margin-top:14px;max-width:none}
+.cap{font:400 13px/1.5 var(--mono);color:var(--muted);margin-top:14px;max-width:none}
 
 /* navigazione: segna la sezione in cui sei */
 .nav{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(244,243,239,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -44,10 +51,14 @@ h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
 .nav .mark{font:500 15px var(--mono);letter-spacing:.06em;text-decoration:none;color:var(--ink)}
 .nav-links{display:flex;gap:clamp(14px,2.2vw,28px);list-style:none}
 .nav-links a{position:relative;font-size:14px;color:var(--muted);text-decoration:none;padding:6px 0;transition:color .25s}
-.nav-links a:hover{color:var(--ink)}
 .nav-links a[aria-current="true"]{color:var(--ink)}
 .nav-links a[aria-current="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ink)}
-.here{display:none;font:400 13px var(--mono);color:var(--ink)}
+.here{font:400 13px var(--mono);color:var(--ink)}
+.menu-btn{display:none;align-items:center;gap:12px;min-height:44px;padding:0;background:none;border:0;font:400 13px var(--mono);color:var(--ink);cursor:pointer}
+.burger{display:inline-flex;flex-direction:column;gap:4px;width:18px}
+.burger i{display:block;height:1.5px;background:var(--ink);transition:transform .3s var(--ease)}
+.nav.open .burger i:first-child{transform:translateY(2.75px) rotate(45deg)}
+.nav.open .burger i:last-child{transform:translateY(-2.75px) rotate(-45deg)}
 .bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--ink)}
 
 /* hero: il nome si muove mentre scorri */
@@ -62,9 +73,7 @@ h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
 .tags{font:400 13px/1.5 var(--mono);color:var(--ink);margin-bottom:36px;max-width:none}
 .cta{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
 .btn{display:inline-block;padding:14px 24px;border:1px solid var(--ink);text-decoration:none;font-size:15px;transition:background .25s,color .25s}
-.btn:hover{background:var(--ink);color:var(--paper)}
 .btn.ghost{border-color:transparent;padding-left:0;padding-right:0;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
-.btn.ghost:hover{background:none;color:var(--blue)}
 
 /* chi sono: il testo si accende mentre scorri */
 .scrub{font-size:clamp(24px,3vw,38px);font-weight:300;line-height:1.35;letter-spacing:-.01em;max-width:30ch}
@@ -77,6 +86,7 @@ h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
 .step p{font-size:19px;line-height:1.6;color:var(--soft)}
 .stage{position:sticky;top:12vh;min-width:0}
 .diagram{display:block;width:100%;height:auto;color:var(--ink)}
+.diagram-v{display:none}
 .diagram text{fill:currentColor}
 .diagram .lbl{font:500 18px var(--sans)}
 .diagram .sub{font:400 15px var(--mono)}
@@ -95,7 +105,7 @@ h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
 .proj{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center}
 .proj-fig{margin:0;min-width:0}
 .proj-fig img{display:block;width:100%;height:auto;mix-blend-mode:multiply}
-.proj-fig figcaption{font:400 12px/1.5 var(--mono);color:var(--muted);margin-top:12px}
+.proj-fig figcaption{font:400 13px/1.5 var(--mono);color:var(--muted);margin-top:12px}
 .flow{font:400 14px/1.8 var(--mono);color:var(--ink);margin:24px 0;max-width:none}
 .flow span{color:var(--muted);padding:0 4px}
 .stack{font:400 13px/1.5 var(--mono);color:var(--muted);margin-top:24px;max-width:none}
@@ -123,11 +133,18 @@ h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
 .links{list-style:none;border-top:1px solid var(--line);max-width:640px}
 .links li{border-bottom:1px solid var(--line)}
 .links a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;text-decoration:none;font-size:18px;transition:padding .35s var(--ease),color .35s}
-.links a:hover{padding-left:14px;color:var(--blue)}
 .links span{font:400 13px var(--mono);color:var(--muted);overflow-wrap:anywhere;text-align:right}
 footer{border-top:1px solid var(--line);padding:32px 0;font:400 13px/1.5 var(--mono);color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px}
 footer p{max-width:none}
+
+/* effetti al passaggio del mouse, solo dove il mouse esiste */
+@media (hover:hover){
+  .btn:hover{background:var(--ink);color:var(--paper)}
+  .btn.ghost:hover{background:none;color:var(--blue)}
+  .nav-links a:hover{color:var(--ink)}
+  .links a:hover{padding-left:14px;color:var(--blue)}
+}
 
 /* entrate in vista */
 .js .rev{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -135,23 +152,35 @@ footer p{max-width:none}
 .js .skills li{border-bottom:0;background:linear-gradient(var(--line),var(--line)) no-repeat left bottom / 0 1px;transition:background-size 1.2s var(--ease),opacity .9s var(--ease),transform .9s var(--ease)}
 .js .skills li.in{background-size:100% 1px}
 
-/* mobile */
+/* tablet e telefono */
 @media (max-width:860px){
   .hero-wrap{height:auto}
   .hero{position:relative;height:auto;padding:120px 0 84px}
   .hero .wrap{padding-top:0}
   .thesis-grid{grid-template-columns:minmax(0,1fr)}
-  .stage{position:static;order:-1;overflow-x:auto}
-  .diagram{min-width:560px}
+  .stage{position:static;order:-1}
+  .diagram-h{display:none}
+  .diagram-v{display:block;width:100%;max-width:360px;margin:0 auto}
   .step{min-height:auto;padding:28px 0}
   .proj{grid-template-columns:minmax(0,1fr)}
   .skills li{grid-template-columns:44px minmax(0,1fr)}
   .entry{grid-template-columns:minmax(0,1fr);gap:6px}
 }
+
+/* telefono */
 @media (max-width:560px){
+  .sec{padding:88px 0}
+  .intro{margin:-4px 0 40px}
+  .log{padding-left:44px}
+  .entry::before{left:-34px}
   .nav-links{display:none}
-  .here{display:block}
+  .menu-btn{display:flex}
+  .nav.open .nav-links{display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;padding:4px var(--gutter) 16px;background:rgba(244,243,239,.98);border-bottom:1px solid var(--line)}
+  .nav.open .nav-links a{font-size:20px;color:var(--ink);padding:14px 0;border-bottom:1px solid var(--line)}
+  .nav.open .nav-links a::after{display:none}
+  .nav.open .nav-links a[aria-current="true"]{font-weight:500}
 }
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .rev,.js .rev.in{opacity:1;transform:none;transition:none}
@@ -162,10 +191,10 @@ footer p{max-width:none}
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="nav">
   <div class="wrap">
     <a class="mark" href="#top">AG</a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="#chi-sono" aria-current="true">Chi sono</a></li>
       <li><a href="#tesi">Tesi</a></li>
       <li><a href="#progetto">Progetto</a></li>
@@ -173,7 +202,10 @@ footer p{max-width:none}
       <li><a href="#percorso">Percorso</a></li>
       <li><a href="#contatti">Contatti</a></li>
     </ul>
-    <span class="here" id="here">01 · Chi sono</span>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">
+      <span class="here" id="here">01 · Chi sono</span>
+      <span class="burger" aria-hidden="true"><i></i><i></i></span>
+    </button>
   </div>
   <div class="bar" id="bar"></div>
 </nav>
@@ -200,7 +232,7 @@ footer p{max-width:none}
     <div class="wrap">
       <p class="label">01 / About</p>
       <h2>Chi sono</h2>
-      <p class="scrub" id="scrub">Mi sono laureato in Ingegneria informatica e automatica alla Sapienza, curriculum Automatica. Nel percorso ho affrontato la programmazione e i sistemi di controllo: scrivo il codice per modellare e simulare un sistema, poi verifico che si comporti come previsto. Mi interessa il punto in cui la teoria incontra i sistemi reali. Prima della laurea ho lavorato un anno come supervisor in un ristorante a Dublino: ho coordinato il team nei turni più intensi, ogni giorno in inglese.</p>
+      <p class="scrub" id="scrub">Mi sono laureato in Ingegneria informatica e automatica alla Sapienza, curriculum Automatica. Nel percorso ho affrontato la programmazione e i sistemi di controllo: scrivo il codice per modellare e simulare un sistema, poi verifico che si comporti come previsto. Mi interessa il punto in cui la teoria incontra i sistemi reali. Mi appassionano la computer vision e l'automazione. Prima della laurea ho lavorato un anno come supervisor in un ristorante a Dublino: ho coordinato il team nei turni più intensi, lavorando ogni giorno in inglese.</p>
     </div>
   </section>
 
@@ -235,7 +267,7 @@ footer p{max-width:none}
         </div>
 
         <div class="stage">
-          <svg class="diagram" id="diagram" data-step="1" viewBox="0 0 640 310" role="img" aria-label="Schema a blocchi: controllore, attacco sugli attuatori, impianto con dinamica zero e uscita con retroazione">
+          <svg class="diagram diagram-h" data-step="1" viewBox="0 0 640 310" role="img" aria-label="Schema a blocchi: controllore, attacco sugli attuatori, impianto con dinamica zero e uscita con retroazione">
             <defs>
               <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                 <path d="M0 0L10 5L0 10z" fill="#14171c"/>
@@ -292,6 +324,67 @@ footer p{max-width:none}
               <text class="lbl" x="602" y="106" text-anchor="middle">y</text>
             </g>
           </svg>
+
+          <svg class="diagram diagram-v" data-step="1" viewBox="0 0 320 470" role="img" aria-label="Schema a blocchi verticale: controllore, attacco sugli attuatori, impianto con dinamica zero e uscita con retroazione">
+            <defs>
+              <marker id="arr-v" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0 0L10 5L0 10z" fill="#14171c"/>
+              </marker>
+            </defs>
+
+            <text class="sub" x="160" y="26">r</text>
+            <path class="wire" d="M150 18V37" marker-end="url(#arr-v)"/>
+            <circle class="box" cx="150" cy="52" r="14"/>
+            <text class="lbl" x="150" y="58" text-anchor="middle">+</text>
+            <text class="sub" x="118" y="46" text-anchor="middle">−</text>
+            <path class="wire" d="M150 66V85" marker-end="url(#arr-v)"/>
+
+            <g class="hl hl-ctrl">
+              <rect class="box" x="85" y="86" width="130" height="50"/>
+              <text class="lbl" x="150" y="117" text-anchor="middle">Controllore</text>
+              <text class="sub" x="164" y="156">u</text>
+            </g>
+            <path class="wire" d="M150 136V164" marker-end="url(#arr-v)"/>
+
+            <circle class="box" cx="150" cy="180" r="14"/>
+            <text class="lbl" x="150" y="186" text-anchor="middle">+</text>
+            <path class="wire" d="M150 194V222" marker-end="url(#arr-v)"/>
+
+            <g class="hl hl-atk">
+              <rect class="box" x="214" y="160" width="96" height="40"/>
+              <text class="sub" x="262" y="185" text-anchor="middle">attacco</text>
+              <path class="wire" d="M214 180H166" marker-end="url(#arr-v)"/>
+              <text class="sub" x="190" y="170" text-anchor="middle">a(t)</text>
+            </g>
+
+            <rect class="box" x="85" y="222" width="130" height="50"/>
+            <text class="lbl" x="150" y="253" text-anchor="middle">Attuatori</text>
+            <path class="wire" d="M150 272V298" marker-end="url(#arr-v)"/>
+
+            <g class="hl hl-scale">
+              <path class="wire" d="M215 247H236" stroke-dasharray="3 3"/>
+              <rect class="box" x="236" y="234" width="64" height="26"/>
+              <text class="sub" x="268" y="252" text-anchor="middle">× α</text>
+            </g>
+
+            <rect class="box" x="85" y="298" width="130" height="50"/>
+            <text class="lbl" x="150" y="329" text-anchor="middle">Impianto</text>
+
+            <g class="hl hl-int">
+              <path class="wire" d="M150 378V350" stroke-dasharray="4 4" marker-end="url(#arr-v)"/>
+              <rect x="85" y="380" width="130" height="46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
+              <text class="sub" x="150" y="400" text-anchor="middle">dinamica</text>
+              <text class="sub" x="150" y="418" text-anchor="middle">zero · x₂</text>
+            </g>
+
+            <g class="hl hl-out">
+              <path class="wire" d="M215 323H290" marker-end="url(#arr-v)"/>
+              <text class="lbl" x="262" y="313" text-anchor="middle">y</text>
+              <circle cx="262" cy="323" r="3.5" fill="currentColor"/>
+              <path class="wire" d="M262 323V446H30V52H136" marker-end="url(#arr-v)"/>
+            </g>
+          </svg>
+
           <p class="cap">Schema semplificato. Blu: uscita misurata. Arancione: stato interno, non osservabile dall'uscita.</p>
         </div>
       </div>
@@ -312,7 +405,7 @@ footer p{max-width:none}
           <p class="stack">OpenCV · Arduino · Servomotori</p>
         </div>
         <figure class="proj-fig">
-          <img src="laser.png" alt="Illustrazione del puntatore laser montato su servomotori, con il raggio rosso" loading="lazy">
+          <img src="laser.png" alt="Illustrazione del puntatore laser montato su servomotori, con il raggio rosso" loading="lazy" onerror="this.closest('figure').remove()">
           <figcaption>Illustrazione stilizzata del progetto.</figcaption>
         </figure>
       </div>
@@ -334,43 +427,50 @@ footer p{max-width:none}
         <li class="rev">
           <span class="idx">02</span>
           <div>
+            <h3>Computer vision</h3>
+            <p>Riconoscimento di oggetti con OpenCV, usato per guidare un sistema di puntamento.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">03</span>
+          <div>
             <h3>Modellazione e controllo</h3>
             <p>Sistemi dinamici, spazio di stato, retroazione e PID.</p>
           </div>
         </li>
         <li class="rev">
-          <span class="idx">03</span>
+          <span class="idx">04</span>
           <div>
             <h3>MATLAB e Simulink</h3>
             <p>Simulazione di sistemi di controllo e analisi dei risultati.</p>
           </div>
         </li>
         <li class="rev">
-          <span class="idx">04</span>
+          <span class="idx">05</span>
           <div>
             <h3>Sicurezza dei sistemi di controllo</h3>
             <p>Attacchi furtivi, rilevamento, robustezza. È il tema della tesi.</p>
           </div>
         </li>
         <li class="rev">
-          <span class="idx">05</span>
+          <span class="idx">06</span>
           <div>
             <h3>Ricerca bibliografica</h3>
             <p>Lettura critica di articoli scientifici e confronto tra metodi.</p>
           </div>
         </li>
         <li class="rev">
-          <span class="idx">06</span>
+          <span class="idx">07</span>
           <div>
             <h3>Inglese tecnico</h3>
-            <p>Lettura di paper e documentazione, comunicazione di tutti i giorni.</p>
+            <p>Lettura di paper e documentazione, comunicazione quotidiana.</p>
           </div>
         </li>
         <li class="rev">
-          <span class="idx">07</span>
+          <span class="idx">08</span>
           <div>
             <h3>Coordinamento del team</h3>
-            <p>Gestione dei turni più intensi, tempi stretti e priorità che cambiano.</p>
+            <p>Tempi stretti, priorità che cambiano e supporto allo staff.</p>
           </div>
         </li>
       </ol>
@@ -508,8 +608,8 @@ footer p{max-width:none}
     fill.style.height = (p * 100).toFixed(1) + '%';
   }
 
-  /* 6. Tesi: il passo attivo illumina il blocco giusto */
-  const diagram = document.getElementById('diagram');
+  /* 6. Tesi: il passo attivo illumina il blocco giusto, su entrambi gli schemi */
+  const diagrams = Array.from(document.querySelectorAll('.diagram'));
   const steps = Array.from(document.querySelectorAll('.step'));
   function updateSteps() {
     const mid = vh() * 0.5;
@@ -517,8 +617,8 @@ footer p{max-width:none}
       const r = s.getBoundingClientRect();
       return r.top <= mid && r.bottom > mid;
     });
-    if (active && diagram.dataset.step !== active.dataset.step) {
-      diagram.dataset.step = active.dataset.step;
+    if (active && diagrams[0].dataset.step !== active.dataset.step) {
+      diagrams.forEach((d) => { d.dataset.step = active.dataset.step; });
     }
   }
 
@@ -527,6 +627,8 @@ footer p{max-width:none}
   const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
   const here = document.getElementById('here');
   const bar = document.getElementById('bar');
+  const nav = document.getElementById('nav');
+  const menuBtn = document.getElementById('menuBtn');
   function updateNav() {
     const line = vh() * 0.35;
     let idx = 0;
@@ -543,7 +645,17 @@ footer p{max-width:none}
     bar.style.width = pct.toFixed(2) + '%';
   }
 
-  /* 8. Un solo aggiornamento per frame */
+  /* 8. Menu del telefono: apre e chiude l'elenco delle sezioni */
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  navLinks.forEach((a) => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* 9. Un solo aggiornamento per frame */
   let queued = false;
   function frame() {
     queued = false;

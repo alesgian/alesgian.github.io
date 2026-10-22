@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alessandro Giannini</title>
+<meta name="description" content="Alessandro Giannini, laureato in Ingegneria informatica e automatica alla Sapienza. Controlli, automazione, simulazione.">
+<meta name="theme-color" content="#f4f3ef">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap">
+<style>
+:root{
+  --paper:#f4f3ef;
+  --ink:#14171c;
+  --soft:#3d434d;
+  --muted:#5f6571;
+  --line:rgba(20,23,28,.14);
+  --blue:#0072bd;    /* uscita: ciò che si vede */
+  --orange:#d95319;  /* stato interno: ciò che non si vede */
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --gutter:clamp(20px,5vw,64px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--paper)}
+section{scroll-margin-top:72px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+p{max-width:62ch}
+.label{font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+h1,h2,h3{font-weight:500;letter-spacing:-.02em;line-height:1.1}
+h2{font-size:clamp(32px,4.4vw,56px);margin-bottom:28px}
+h3{font-size:20px;letter-spacing:-.01em;margin-bottom:6px}
+.sec{padding:120px 0;border-top:1px solid var(--line)}
+.cap{font:400 12px/1.5 var(--mono);color:var(--muted);margin-top:14px;max-width:none}
+
+/* navigazione: segna la sezione in cui sei */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(244,243,239,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav .mark{font:500 15px var(--mono);letter-spacing:.06em;text-decoration:none;color:var(--ink)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{position:relative;font-size:14px;color:var(--muted);text-decoration:none;padding:6px 0;transition:color .25s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a[aria-current="true"]{color:var(--ink)}
+.nav-links a[aria-current="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ink)}
+.here{display:none;font:400 13px var(--mono);color:var(--ink)}
+.bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--ink)}
+
+/* hero: il nome si muove mentre scorri */
+.hero-wrap{position:relative;height:200vh}
+.hero{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+.hero .wrap{width:100%;padding-top:64px}
+.meta{font:400 13px/1.5 var(--mono);color:var(--muted);margin-bottom:28px}
+.hero h1{font-size:clamp(56px,9.6vw,140px);font-weight:500;line-height:.94;letter-spacing:-.04em;margin-bottom:36px}
+.hero h1 span{display:block;will-change:transform}
+.lead{font-size:clamp(18px,1.5vw,21px);font-weight:300;line-height:1.5;color:var(--soft);margin-bottom:14px}
+.sub-en{font:400 14px/1.5 var(--mono);color:var(--muted);margin-bottom:14px}
+.tags{font:400 13px/1.5 var(--mono);color:var(--ink);margin-bottom:36px;max-width:none}
+.cta{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+.btn{display:inline-block;padding:14px 24px;border:1px solid var(--ink);text-decoration:none;font-size:15px;transition:background .25s,color .25s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.ghost{border-color:transparent;padding-left:0;padding-right:0;text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+.btn.ghost:hover{background:none;color:var(--blue)}
+
+/* chi sono: il testo si accende mentre scorri */
+.scrub{font-size:clamp(24px,3vw,38px);font-weight:300;line-height:1.35;letter-spacing:-.01em;max-width:30ch}
+
+/* tesi: schema a blocchi che segue la lettura */
+.intro{font:400 15px/1.6 var(--mono);color:var(--muted);margin:-8px 0 64px;max-width:none}
+.thesis-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,100px);align-items:start}
+.step{min-height:70vh;display:flex;flex-direction:column;justify-content:center;max-width:470px}
+.step .n{font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.step p{font-size:19px;line-height:1.6;color:var(--soft)}
+.stage{position:sticky;top:12vh;min-width:0}
+.diagram{display:block;width:100%;height:auto;color:var(--ink)}
+.diagram text{fill:currentColor}
+.diagram .lbl{font:500 18px var(--sans)}
+.diagram .sub{font:400 15px var(--mono)}
+.diagram .wire{fill:none;stroke:currentColor;stroke-width:1.6}
+.diagram .box{fill:var(--paper);stroke:currentColor;stroke-width:1.5}
+.diagram .hl{opacity:.2;transition:opacity .6s var(--ease)}
+.diagram .hl-out{color:var(--blue)}
+.diagram .hl-int{color:var(--orange)}
+.diagram[data-step="1"] .hl-ctrl,
+.diagram[data-step="2"] .hl-atk,
+.diagram[data-step="3"] .hl-out,
+.diagram[data-step="4"] .hl-int,
+.diagram[data-step="5"] .hl-scale{opacity:1}
+
+/* skill */
+.skills{list-style:none;border-top:1px solid var(--ink)}
+.skills li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:24px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--line)}
+.skills p{color:var(--soft);font-size:16px}
+.skills h3{margin-bottom:4px}
+.idx{font:400 13px var(--mono);color:var(--muted)}
+
+/* percorso: changelog con linea che si riempie */
+.log{position:relative;padding-left:56px}
+.rail{position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--line)}
+.fill{position:absolute;left:0;top:0;width:2px;height:0;background:var(--ink)}
+.entry{position:relative;display:grid;grid-template-columns:96px 1fr;gap:24px;padding:30px 0;border-bottom:1px solid var(--line)}
+.entry::before{content:"";position:absolute;left:-46px;top:40px;width:10px;height:10px;border-radius:50%;background:var(--paper);border:1.5px solid var(--ink)}
+.entry.next::before{border-style:dashed;background:none}
+.ver{font:500 14px/1.4 var(--mono);padding-top:4px}
+.when{font:400 13px/1.4 var(--mono);color:var(--muted);margin-bottom:6px}
+.txt{color:var(--soft);font-size:16px}
+
+/* contatti */
+.contact .lead{font-size:clamp(22px,2.6vw,32px);line-height:1.35;color:var(--ink);max-width:28ch;margin-bottom:44px}
+.links{list-style:none;border-top:1px solid var(--line);max-width:640px}
+.links li{border-bottom:1px solid var(--line)}
+.links a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;text-decoration:none;font-size:18px;transition:padding .35s var(--ease),color .35s}
+.links a:hover{padding-left:14px;color:var(--blue)}
+.links span{font:400 13px var(--mono);color:var(--muted);overflow-wrap:anywhere;text-align:right}
+footer{border-top:1px solid var(--line);padding:32px 0;font:400 13px/1.5 var(--mono);color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px}
+footer p{max-width:none}
+
+/* entrate in vista */
+.js .rev{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rev.in{opacity:1;transform:none}
+.js .skills li{border-bottom:0;background:linear-gradient(var(--line),var(--line)) no-repeat left bottom / 0 1px;transition:background-size 1.2s var(--ease),opacity .9s var(--ease),transform .9s var(--ease)}
+.js .skills li.in{background-size:100% 1px}
+
+/* mobile */
+@media (max-width:860px){
+  .hero-wrap{height:auto}
+  .hero{position:relative;height:auto;padding:120px 0 84px}
+  .hero .wrap{padding-top:0}
+  .thesis-grid{grid-template-columns:minmax(0,1fr)}
+  .stage{position:static;order:-1;overflow-x:auto}
+  .diagram{min-width:560px}
+  .step{min-height:auto;padding:28px 0}
+  .skills li{grid-template-columns:44px minmax(0,1fr)}
+  .entry{grid-template-columns:minmax(0,1fr);gap:6px}
+}
+@media (max-width:560px){
+  .nav-links{display:none}
+  .here{display:block}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rev,.js .rev.in{opacity:1;transform:none;transition:none}
+  .js .skills li{background:none;border-bottom:1px solid var(--line);transition:none}
+  .diagram .hl{transition:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="mark" href="#top">AG</a>
+    <ul class="nav-links">
+      <li><a href="#chi-sono" aria-current="true">Chi sono</a></li>
+      <li><a href="#tesi">Tesi</a></li>
+      <li><a href="#skill">Skill</a></li>
+      <li><a href="#percorso">Percorso</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+    <span class="here" id="here">01 · Chi sono</span>
+  </div>
+  <div class="bar" id="bar"></div>
+</nav>
+
+<header class="hero-wrap" id="hero-wrap">
+  <div class="hero" id="top">
+    <div class="wrap">
+      <p class="meta">Laureato in Ingegneria informatica e automatica · Sapienza Università di Roma</p>
+      <h1><span>Alessandro</span><span>Giannini</span></h1>
+      <p class="lead">Studio come si comporta un sistema quando qualcosa non va come previsto: guasti, rumore, o qualcuno che prova a manometterlo.</p>
+      <p class="sub-en">Control systems, automation and the security of what they control.</p>
+      <p class="tags">Programmazione · MATLAB · Sistemi di controllo</p>
+      <div class="cta">
+        <a class="btn" href="#contatti">Contattami</a>
+        <a class="btn ghost" href="cv.pdf">Scarica CV</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section id="chi-sono" class="sec">
+    <div class="wrap">
+      <p class="label">01 / About</p>
+      <h2>Chi sono</h2>
+      <p class="scrub" id="scrub">Mi sono laureato in Ingegneria informatica e automatica alla Sapienza, curriculum Automatica. Nel percorso ho affrontato la programmazione e i sistemi di controllo: scrivo il codice per modellare e simulare un sistema, poi verifico che si comporti come previsto. Mi interessa il punto in cui la teoria incontra i sistemi reali. Prima della laurea ho lavorato un anno come cameriere in Irlanda, dove ho imparato a lavorare in team sotto pressione e a parlare inglese ogni giorno.</p>
+    </div>
+  </section>
+
+  <section id="tesi" class="sec">
+    <div class="wrap">
+      <p class="label">02 / Thesis</p>
+      <h2>Tesi: rilevare un attacco che non si vede</h2>
+      <p class="intro">Rilevamento di zero dynamics attack tramite riscalamento degli attuatori. Laurea triennale, Sapienza.</p>
+
+      <div class="thesis-grid">
+        <div>
+          <article class="step rev" data-step="1">
+            <p class="n">Passo 1 · controllo</p>
+            <p>Il controllore confronta il riferimento con l'uscita e calcola il segnale di controllo <i>u</i>. È il ciclo di retroazione che mantiene il sistema dove deve stare.</p>
+          </article>
+          <article class="step rev" data-step="2">
+            <p class="n">Passo 2 · attacco</p>
+            <p>Un attacco zero dynamics si inserisce tra controllore e attuatori e modifica il segnale che arriva all'impianto. Dal punto di vista del controllore, nulla sembra cambiato.</p>
+          </article>
+          <article class="step rev" data-step="3">
+            <p class="n">Passo 3 · uscita</p>
+            <p>L'uscita misurata resta quella nominale. Dal sensore, tutto appare in ordine.</p>
+          </article>
+          <article class="step rev" data-step="4">
+            <p class="n">Passo 4 · stato interno</p>
+            <p>Intanto lo stato interno evolve. Nei sistemi a fase non minima la dinamica zero può diventare instabile, e lo stato può crescere senza lasciare traccia in uscita.</p>
+          </article>
+          <article class="step rev" data-step="5">
+            <p class="n">Passo 5 · metodo</p>
+            <p>La tesi studia il riscalamento degli attuatori come metodo per far emergere l'attacco. Il lavoro combina lo studio della letteratura con simulazioni in MATLAB.</p>
+          </article>
+        </div>
+
+        <div class="stage">
+          <svg class="diagram" id="diagram" data-step="1" viewBox="0 0 640 310" role="img" aria-label="Schema a blocchi: controllore, attacco sugli attuatori, impianto con dinamica zero e uscita con retroazione">
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0 0L10 5L0 10z" fill="#14171c"/>
+              </marker>
+            </defs>
+
+            <text class="sub" x="14" y="110">r</text>
+            <path class="wire" d="M16 120H60" marker-end="url(#arr)"/>
+            <circle class="box" cx="76" cy="120" r="14"/>
+            <text class="lbl" x="76" y="126" text-anchor="middle">+</text>
+            <text class="sub" x="60" y="144" text-anchor="middle">−</text>
+            <path class="wire" d="M90 120H114" marker-end="url(#arr)"/>
+
+            <g class="hl hl-ctrl">
+              <rect class="box" x="116" y="92" width="120" height="56"/>
+              <text class="lbl" x="176" y="126" text-anchor="middle">Controllore</text>
+              <text class="sub" x="246" y="110" text-anchor="middle">u</text>
+            </g>
+            <path class="wire" d="M236 120H262" marker-end="url(#arr)"/>
+
+            <g class="hl hl-atk">
+              <rect class="box" x="246" y="20" width="72" height="36"/>
+              <text class="sub" x="282" y="43" text-anchor="middle">attacco</text>
+              <path class="wire" d="M282 56V104" marker-end="url(#arr)"/>
+              <text class="sub" x="292" y="88">a(t)</text>
+            </g>
+            <circle class="box" cx="282" cy="120" r="14"/>
+            <text class="lbl" x="282" y="126" text-anchor="middle">+</text>
+            <path class="wire" d="M296 120H318" marker-end="url(#arr)"/>
+
+            <g class="hl hl-scale">
+              <rect class="box" x="350" y="50" width="64" height="26"/>
+              <text class="sub" x="382" y="68" text-anchor="middle">× α</text>
+              <path class="wire" d="M382 76V92" stroke-dasharray="3 3"/>
+            </g>
+            <rect class="box" x="320" y="92" width="122" height="56"/>
+            <text class="lbl" x="381" y="126" text-anchor="middle">Attuatori</text>
+            <path class="wire" d="M442 120H464" marker-end="url(#arr)"/>
+
+            <rect class="box" x="466" y="92" width="122" height="56"/>
+            <text class="lbl" x="527" y="126" text-anchor="middle">Impianto</text>
+
+            <g class="hl hl-int">
+              <path class="wire" d="M527 194V152" stroke-dasharray="4 4" marker-end="url(#arr)"/>
+              <rect x="466" y="196" width="122" height="54" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
+              <text class="sub" x="527" y="218" text-anchor="middle">dinamica</text>
+              <text class="sub" x="527" y="237" text-anchor="middle">zero · x₂</text>
+            </g>
+
+            <g class="hl hl-out">
+              <path class="wire" d="M588 120H620" marker-end="url(#arr)"/>
+              <path class="wire" d="M600 120V292H76V134" marker-end="url(#arr)"/>
+              <circle cx="600" cy="120" r="3.5" fill="currentColor"/>
+              <text class="lbl" x="602" y="106" text-anchor="middle">y</text>
+            </g>
+          </svg>
+          <p class="cap">Schema semplificato. Blu: uscita misurata. Arancione: stato interno, non osservabile dall'uscita.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skill" class="sec">
+    <div class="wrap">
+      <p class="label">03 / Skills</p>
+      <h2>Cosa so fare</h2>
+      <ol class="skills">
+        <li class="rev">
+          <span class="idx">01</span>
+          <div>
+            <h3>Programmazione</h3>
+            <p>Scrivere codice per modellare, simulare e automatizzare.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">02</span>
+          <div>
+            <h3>Modellazione e controllo</h3>
+            <p>Sistemi dinamici, spazio di stato, retroazione e PID.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">03</span>
+          <div>
+            <h3>MATLAB e Simulink</h3>
+            <p>Simulazione di sistemi di controllo e analisi dei risultati.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">04</span>
+          <div>
+            <h3>Sicurezza dei sistemi di controllo</h3>
+            <p>Attacchi furtivi, rilevamento, robustezza. È il tema della tesi.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">05</span>
+          <div>
+            <h3>Ricerca bibliografica</h3>
+            <p>Lettura critica di articoli scientifici e confronto tra metodi.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">06</span>
+          <div>
+            <h3>Inglese tecnico</h3>
+            <p>Lettura di paper e documentazione, comunicazione di tutti i giorni.</p>
+          </div>
+        </li>
+        <li class="rev">
+          <span class="idx">07</span>
+          <div>
+            <h3>Lavorare in team sotto pressione</h3>
+            <p>Turni intensi, tempi stretti, priorità che cambiano.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="percorso" class="sec">
+    <div class="wrap">
+      <p class="label">04 / Path</p>
+      <h2>Percorso</h2>
+      <div class="log" id="log">
+        <div class="rail"><div class="fill" id="fill"></div></div>
+
+        <article class="entry rev">
+          <p class="ver">v0.1</p>
+          <div>
+            <p class="when">2022 – 2023</p>
+            <h3>Cameriere, Irlanda</h3>
+            <p class="txt">Sala, ordini e clienti in inglese ogni giorno. Turni intensi e tempi stretti: un buon allenamento per lavorare sotto pressione.</p>
+          </div>
+        </article>
+
+        <article class="entry rev">
+          <p class="ver">v1.0</p>
+          <div>
+            <p class="when">2023 – 2026</p>
+            <h3>Laurea triennale, Sapienza</h3>
+            <p class="txt">Ingegneria informatica e automatica, curriculum Automatica. Programmazione, sistemi di controllo, simulazione.</p>
+          </div>
+        </article>
+
+        <article class="entry rev">
+          <p class="ver">v1.1</p>
+          <div>
+            <p class="when">2026</p>
+            <h3>Tesi: zero dynamics attack</h3>
+            <p class="txt">Rilevamento tramite riscalamento degli attuatori. Studio della letteratura e simulazioni in MATLAB.</p>
+          </div>
+        </article>
+
+        <article class="entry next rev">
+          <p class="ver">next</p>
+          <div>
+            <p class="when">in arrivo</p>
+            <h3>Prossimo passo</h3>
+            <p class="txt">Aperto a ruoli e progetti in automazione, controllo e sicurezza dei sistemi.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti" class="sec contact">
+    <div class="wrap">
+      <p class="label">05 / Contact</p>
+      <h2>Contatti</h2>
+      <p class="lead">Se ti serve qualcuno che capisce perché un sistema si comporta in modo strano, o che sa spiegarlo bene, scrivimi.</p>
+      <ul class="links">
+        <li><a href="mailto:giannini.alessandro.2003@gmail.com">Email <span>giannini.alessandro.2003@gmail.com</span></a></li>
+        <li><a href="https://www.linkedin.com/in/alessandro-giannini-a24a33377/" target="_blank" rel="noopener">LinkedIn <span>alessandro-giannini</span></a></li>
+        <li><a href="cv.pdf">Curriculum <span>PDF</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Alessandro Giannini</p>
+    <p>Sistema stabile. Per ora.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  root.classList.add('js');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+  const vh = () => window.innerHeight;
+
+  /* 1. Entrata degli elementi, una sola volta */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.rev').forEach((el) => io.observe(el));
+
+  /* 2. Chi sono: il testo si accende parola per parola */
+  const scrub = document.getElementById('scrub');
+  const words = scrub.textContent.trim().split(/\s+/);
+  scrub.textContent = '';
+  const wordEls = words.map((w, i) => {
+    const span = document.createElement('span');
+    span.className = 'w';
+    span.textContent = w;
+    scrub.appendChild(span);
+    if (i < words.length - 1) scrub.appendChild(document.createTextNode(' '));
+    return span;
+  });
+
+  /* 3. Hero: il nome si muove in direzioni opposte mentre scorri */
+  const heroWrap = document.getElementById('hero-wrap');
+  const names = heroWrap.querySelectorAll('h1 span');
+  function heroProgress() {
+    const r = heroWrap.getBoundingClientRect();
+    const range = heroWrap.offsetHeight - vh();
+    return range > 0
+      ? clamp(-r.top / range)
+      : clamp((vh() - r.top) / (vh() + r.height));
+  }
+
+  /* 4. Chi sono: aggiornamento delle parole */
+  function updateScrub() {
+    const r = scrub.getBoundingClientRect();
+    const p = clamp((vh() * 0.9 - r.top) / (r.height + vh() * 0.6));
+    const n = wordEls.length;
+    for (let i = 0; i < n; i++) {
+      const q = clamp(p * n - i);
+      wordEls[i].style.opacity = (0.16 + 0.84 * q).toFixed(3);
+    }
+  }
+
+  /* 5. Percorso: la linea si riempie */
+  const log = document.getElementById('log');
+  const fill = document.getElementById('fill');
+  function updateLog() {
+    const r = log.getBoundingClientRect();
+    const p = clamp((vh() * 0.65 - r.top) / r.height);
+    fill.style.height = (p * 100).toFixed(1) + '%';
+  }
+
+  /* 6. Tesi: il passo attivo illumina il blocco giusto */
+  const diagram = document.getElementById('diagram');
+  const steps = Array.from(document.querySelectorAll('.step'));
+  function updateSteps() {
+    const mid = vh() * 0.5;
+    const active = steps.find((s) => {
+      const r = s.getBoundingClientRect();
+      return r.top <= mid && r.bottom > mid;
+    });
+    if (active && diagram.dataset.step !== active.dataset.step) {
+      diagram.dataset.step = active.dataset.step;
+    }
+  }
+
+  /* 7. Navigazione: segna la sezione in cui sei e la posizione nella pagina */
+  const sectionEls = ['chi-sono', 'tesi', 'skill', 'percorso', 'contatti'].map((id) => document.getElementById(id));
+  const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+  const here = document.getElementById('here');
+  const bar = document.getElementById('bar');
+  function updateNav() {
+    const line = vh() * 0.35;
+    let idx = 0;
+    sectionEls.forEach((s, i) => {
+      if (s.getBoundingClientRect().top <= line) idx = i;
+    });
+    navLinks.forEach((a, i) => {
+      if (i === idx) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    here.textContent = `0${idx + 1} · ${navLinks[idx].textContent}`;
+    const max = document.documentElement.scrollHeight - vh();
+    const pct = max > 0 ? clamp(window.scrollY / max) * 100 : 0;
+    bar.style.width = pct.toFixed(2) + '%';
+  }
+
+  /* 8. Un solo aggiornamento per frame */
+  let queued = false;
+  function frame() {
+    queued = false;
+    if (!reduce) {
+      const p = heroProgress();
+      const dx = Math.min(48, window.innerWidth * 0.035) * p;
+      names[0].style.transform = `translateX(${(-dx).toFixed(1)}px)`;
+      names[1].style.transform = `translateX(${dx.toFixed(1)}px)`;
+      updateScrub();
+      updateLog();
+    }
+    updateSteps();
+    updateNav();
+  }
+  function request() {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(frame);
+    }
+  }
+
+  if (reduce) {
+    wordEls.forEach((el) => { el.style.opacity = '1'; });
+    fill.style.height = '100%';
+  }
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request);
+  frame();
+})();
+</script>
+</body>
+</html>

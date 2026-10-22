@@ -664,9 +664,9 @@ footer p{max-width:none}
       const dx = Math.min(48, window.innerWidth * 0.035) * p;
       names[0].style.transform = `translateX(${(-dx).toFixed(1)}px)`;
       names[1].style.transform = `translateX(${dx.toFixed(1)}px)`;
-      updateScrub();
       updateLog();
     }
+    updateScrub();
     updateSteps();
     updateNav();
   }
@@ -678,7 +678,6 @@ footer p{max-width:none}
   }
 
   if (reduce) {
-    wordEls.forEach((el) => { el.style.opacity = '1'; });
     fill.style.height = '100%';
   }
   window.addEventListener('scroll', request, { passive: true });
